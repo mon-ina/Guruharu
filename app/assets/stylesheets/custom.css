@@ -1,0 +1,54 @@
+body {
+  padding-top: 100px; /* ヘッダーの高さに合わせて調整 */
+}
+
+
+/* ナビバー全体のデザイン（白背景＋下線グラデーション） */
+.custom-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030;
+  background-color: #fff !important;
+  border-top: 4px solid;
+  border-image: linear-gradient(to right, #f7941e, #f37055) 1;
+}
+
+
+/* アプリ名：太字＋オレンジグラデーション文字 */
+.navbar-brand.gradient-text {
+  font-size: 3rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #f7941e, #f37055);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#header-get-location-btn{
+     color: #ff7b1c;
+  border: 1px solid #ff9721;
+
+  &:hover {
+    background: linear-gradient(90deg, rgba(255, 151, 33, 1) 1%, rgba(255, 123, 28, 1) 100%);
+    color: white;
+    border-color: transparent;
+  }
+}
+
+/* 入力フォーカス時の装飾 */
+.form-control:focus {
+  box-shadow: none;
+  border-color: #f37055;
+}
+
+/* 検索ボタンのグラデーション */
+.btn-search {
+  background: linear-gradient(to right, #f7941e, #f37055);
+  border: none;
+  color: white;
+}
+
+.btn-search:hover {
+  opacity: 0.9;
+}

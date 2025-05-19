@@ -1,0 +1,20 @@
+<div class="container mt-4">
+  <div class="card mb-4">
+    <% if @shop["photo"] && @shop["photo"]["pc"] %>
+        <img src="<%= @shop["photo"]["pc"]["l"].gsub(/^http:/, "https:") %>" class="card-img-top img-fluid" style="max-height: 300px; object-fit: cover;" alt="店舗画像">
+    <% end %>
+
+
+    <div class="card-body">
+      <h1 class="card-title h3 mb-3"><%= @shop["name"] %></h1>
+
+      <p><strong>住所:</strong> <%= @shop["address"] %></p>
+      <p><strong>アクセス:</strong> <%= @shop["access"] %></p>
+      <p><strong>営業時間:</strong> <%= @shop["open"] %></p>
+      <p><strong>予算:</strong> <%= @shop["budget"] %></p>
+      <p><strong>キャッチコピー:</strong> <%= @shop["catch"] %></p>
+
+      <%= link_to "← 戻る", restaurants_path(page: params[:page]), class: "btn btn-secondary mt-3" %>
+    </div>
+  </div>
+</div>
