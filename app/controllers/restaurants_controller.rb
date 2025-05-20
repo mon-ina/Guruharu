@@ -56,6 +56,7 @@ class RestaurantsController < ApplicationController
     shops = results["shop"]
     @total_results_available = results["results_available"].to_i
     @total_pages = (@total_results_available / per_page.to_f).ceil
+    @approx_total = @total_pages * per_page
     # 予算コードでフィルター
     @shops = if budget_codes
       shops.select { |shop| shop["budget"] && budget_codes.include?(shop["budget"]["code"]) }

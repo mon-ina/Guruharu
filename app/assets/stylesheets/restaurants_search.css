@@ -1,0 +1,49 @@
+.main-container{
+  background-image: url('restaurant_image.png');
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  padding-top: 13rem;
+}
+
+.get-location-container{
+  margin-top: 3rem;
+  width: 24rem;
+}
+
+#search-get-location-btn{
+  background: linear-gradient(90deg, rgba(255, 151, 33, 1) 1%, rgba(255, 123, 28, 1) 100%);
+  border-color: transparent;
+  color: white;
+  &:hover{
+    opacity: 0.9;
+  }
+  margin-top: 1.2rem;
+}
+
+.search-container{
+  padding: 1.2rem;
+  margin-top: 1.2rem;
+  width: 45rem;
+}
+
+#school-input{
+  width: 18rem;
+}
+
+.submit-container{
+  margin-top: 1.8rem;
+}
+
+.submit-btn{
+  background: linear-gradient(90deg, rgba(255, 151, 33, 1) 1%, rgba(255, 123, 28, 1) 100%);
+  border-color: transparent;
+  color: white;
+  &:hover{
+    opacity: 0.9;
+  }
+  padding: 0.5rem 21rem;
+}

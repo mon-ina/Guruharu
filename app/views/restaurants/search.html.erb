@@ -1,66 +1,100 @@
+<%= stylesheet_link_tag "restaurants_search", media: "all", "data-turbo-track": "reload" %>
+<div class="main-container">
 <%= form_with url: restaurants_path, method: :get, local: true do %>
-  <div>
-    <%= hidden_field_tag :lat, params[:lat].presence || session[:lat], id: "search-lat" %>
-    <%= hidden_field_tag :lng, params[:lng].presence || session[:lng], id: "search-lng" %>
-    <button type="button" id="search-get-location-btn" class="btn btn-outline-info me-2" title="現在地を取得">現在地を取得</button>
+  <div class="d-flex justify-content-center">
+    <div class="card shadow-sm get-location-container">
+      <div class="card-body text-center">
+        <%= hidden_field_tag :lat, params[:lat].presence || session[:lat], id: "search-lat" %>
+        <%= hidden_field_tag :lng, params[:lng].presence || session[:lng], id: "search-lng" %>
+        <p class="card-text">位置情報をONにして近くのお店を探そう!!</p>
+        <button type="button" id="search-get-location-btn" class="btn btn-outline-info me-2" title="現在地を取得">現在地を取得</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center">
+  <div class="card shadow-sm search-container p-3" style="min-width: 800px;">
+    <div class="card-body">
+
+      <div class="row g-3 align-items-end">
+        <!-- 学校名・駅名 -->
+        <div class="col">
+          <label for="school-input" class="form-label">学校名・駅名</label>
+          <input id="school-input" class="form-control" list="school-list" placeholder="学校名・駅名を入力" autocomplete="off">
+          <datalist id="school-list">
+            <option value="坪内総合ビジネスカレッジ" data-lat="35.462464" data-lng="133.0651219">
+            <option value="島根大学" data-lat="35.4848668" data-lng="133.0646449">
+            <option value="島根県立大学 松江キャンパス" data-lat="35.4382825" data-lng="133.0575027">
+            <option value="島根県立大学 浜田キャンパス" data-lat="34.883547" data-lng="132.0765442">
+            <option value="松江西高等学校" data-lat="35.4478611" data-lng="133.0499432">
+            <option value="松江工業高等専門学校" data-lat="35.4450255" data-lng="133.0728574">
+            <option value="松江駅" data-lat="35.4584091" data-lng="133.0492003">
+            <option value="東京駅" data-lat="35.6811398" data-lng="139.7644865">
+          </datalist>
+        </div>
+
+        <!-- 範囲 -->
+        <div class="col range-container">
+          <label>検索範囲（km）</label>
+          <%= select_tag :range, options_for_select([1,2,3,4,5], selected: 3), class: "form-select" %>
+        </div>
+
+        <!-- 予算 -->
+        <div class="col">
+          <label>予算</label>
+          <%= select_tag :budget_group, options_for_select([
+            ["指定なし", ""],
+            ["～500円", "B009"],
+            ["501〜1000円", "B010"],
+            ["1001〜1500円", "B011"],
+            ["1501～2000円", "B001"],
+            ["2000円～", "over_2000"]
+          ], selected: params[:budget_group] || session[:budget_group]), class: "form-select" %>
+        </div>
+
+        <!-- ジャンル -->
+        <div class="col">
+          <label>ジャンル</label>
+          <%= select_tag :genre, options_for_select([
+            ["指定なし", ""], 
+            ["和食","G004"],
+            ["洋食","G005"],
+            ["イタリアン・フレンチ","G006"],
+            ["中華","G007"],
+            ["韓国","G017"],
+            ["居酒屋", "G001"],
+            ["カフェ・スイーツ", "G014"],
+            ["ラーメン", "G013"],
+            ["焼肉","G008"]
+          ], selected: session[:genre]), class: "form-select" %>
+        </div>
+      </div>
+
+<div class="submit-container text-center">
+  <div class="form-check d-inline-block mb-2">
+    <%= check_box_tag :open, "1", session[:open] == "1", class: "form-check-input", id: "open-check" %>
+    <label for="open-check" class="form-check-label">営業中のみ</label>
   </div>
 
   <div>
-    <label>検索範囲（1〜5km）</label><br>
-    <%= select_tag :range, options_for_select([1,2,3,4,5], selected: 3) %>
+    <%= button_tag(type: 'submit', class: 'btn btn-primary align-items-center submit-btn') do %>
+      <!-- SVGアイコン -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24" fill="white">
+        <path d="M376.324,312.508c49.638-78.774,40.238-184.326-28.306-252.871c-79.507-79.515-208.872-79.515-288.388,0
+          c-79.507,79.516-79.507,208.873,0,288.379c68.536,68.544,174.115,77.935,252.88,28.306l135.668,135.676L512,448.186
+          L376.324,312.508z M296.543,296.542c-51.121,51.139-134.308,51.139-185.439,0c-51.121-51.121-51.112-134.299,0.009-185.43
+          c51.122-51.121,134.309-51.13,185.43-0.008C347.665,162.243,347.665,245.421,296.543,296.542z"/>
+      </svg>
+      <span class="mt-1">検索</span>
+    <% end %>
   </div>
 
-  <div>
-    <label for="school-input">学校名:</label><br>
-    <input id="school-input" class="form-control" list="school-list" placeholder="駅名、学校名を入力" autocomplete="off">
-    <datalist id="school-list">
-      <option value="坪内総合ビジネスカレッジ" data-lat="35.462464" data-lng="133.0651219">
-      <option value="島根大学" data-lat="35.4848668" data-lng="133.0646449">
-      <option value="島根県立大学 松江キャンパス" data-lat="35.4382825" data-lng="133.0575027">
-      <option value="島根県立大学 浜田キャンパス" data-lat="34.883547" data-lng="132.0765442">
-      <option value="松江西高等学校" data-lat="35.4478611" data-lng="133.0499432">
-      <option value="松江工業高等専門学校" data-lat="35.4450255" data-lng="133.0728574">
-      <option value="松江駅" data-lat="35.4584091" data-lng="133.0492003">
-      <option value="東京駅" data-lat="35.6811398" data-lng="139.7644865">
-    </datalist>
+    </div>
   </div>
+</div>
 
-  <div>
-    <label>予算</label>
-    <%= select_tag :budget_group, options_for_select([
-      ["指定なし", ""],
-      ["～500円", "B009"],
-      ["501〜1000円", "B010"],
-      ["1001〜1500円", "B011"],
-      ["1501～2000円", "B001"],
-      ["2000円～", "over_2000"]
-    ], selected: params[:budget_group] || session[:budget_group]) %>
-  </div>
-
-  <div>
-    <label>ジャンル</label>
-    <%= select_tag :genre, options_for_select([
-         ["指定なし", ""], 
-         ["和食","G004"],
-         ["洋食","G005"],
-         ["イタリアン・フレンチ","G006"],
-         ["中華","G007"],
-         ["韓国","G017"],
-         ["居酒屋", "G001"],
-         ["カフェ・スイーツ", "G014"],
-         ["ラーメン", "G013"],
-         ["焼肉","G008"]
-    ], selected: session[:genre]) %>
-  </div>
-
-  <div>
-    <label>営業中のみ</label>
-    <%= check_box_tag :open, "1", session[:open] == "1" %>
-  </div>
-
-  <%= submit_tag "検索" %>
 <% end %>
-
+</div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const geoBtn = document.getElementById("search-get-location-btn");
@@ -68,25 +102,25 @@
     const lngField = document.getElementById("search-lng");
     const schoolInput = document.getElementById("school-input");
     const schoolList = document.getElementById("school-list");
-  
+
     // 現在地取得
     geoBtn?.addEventListener("click", () => {
       if (!navigator.geolocation) {
         alert("このブラウザでは位置情報がサポートされていません");
         return;
       }
-    
+
       geoBtn.disabled = true;
       geoBtn.textContent = "取得中...";
-    
+
       navigator.geolocation.getCurrentPosition(
         (position) => {
           latField.value = position.coords.latitude;
           lngField.value = position.coords.longitude;
-    
+
           // 入力欄にも反映
           geoBtn.textContent = "取得済み";
-    
+
           // UIフィードバック
           geoBtn.disabled = false;
           schoolInput.value = "現在地";
@@ -98,23 +132,23 @@
         }
       );
     });
-      
+
     // 学校名選択で緯度・経度を反映
     schoolInput?.addEventListener("input", () => {
       const inputValue = schoolInput.value;
       const options = schoolList.options;
-      
+
       for (let i = 0; i < options.length; i++) {
         if (options[i].value === inputValue) {
           latField.value = options[i].dataset.lat || "";
           lngField.value = options[i].dataset.lng || "";
-      
+
           latField.value = lat;
           lngField.value = lng;
           return;
         }
       }
-    
+
       // 該当なしの場合、緯度経度をクリア
       latField.value = "";
       lngField.value = "";
