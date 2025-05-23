@@ -1,20 +1,57 @@
+<%= stylesheet_link_tag "restaurants_show", :media => "all" %>
 <div class="container mt-4">
-  <div class="card mb-4">
-    <% if @shop["photo"] && @shop["photo"]["pc"] %>
-        <img src="<%= @shop["photo"]["pc"]["l"].gsub(/^http:/, "https:") %>" class="card-img-top img-fluid" style="max-height: 300px; object-fit: cover;" alt="店舗画像">
-    <% end %>
 
+    <!-- 戻るボタン（左上に配置） -->
+    <div class="mb-3">
+      <%= link_to "← 戻る", restaurants_path(page: params[:page]), class: "btn back-button" %>
+    </div>
 
-    <div class="card-body">
-      <h1 class="card-title h3 mb-3"><%= @shop["name"] %></h1>
+    <div class="card shadow-lg p-3 position-relative">
+      <!-- 1行目: 画像 + 店名など -->
+      <div class="row mb-4">
+        <!-- 店舗画像 -->
+        <% if @shop["photo"] && @shop["photo"]["pc"] %>
+          <div class="col-md-6 shop-image-container">
+            <img src="<%= @shop["photo"]["pc"]["l"].gsub(/^http:/, "https:") %>" 
+                class="img-fluid rounded w-100 h-100 shop-image" 
+                alt="店舗画像">
+          </div>
+        <% end %>
 
-      <p><strong>住所:</strong> <%= @shop["address"] %></p>
-      <p><strong>アクセス:</strong> <%= @shop["access"] %></p>
-      <p><strong>営業時間:</strong> <%= @shop["open"] %></p>
-      <p><strong>予算:</strong> <%= @shop["budget"] %></p>
-      <p><strong>キャッチコピー:</strong> <%= @shop["catch"] %></p>
+            <!-- ハートボタンを右上に絶対配置 -->
+      <button class="btn btn-outline-danger rounded-circle position-absolute heart-button" >
+        ♥
+      </button>
 
-      <%= link_to "← 戻る", restaurants_path(page: params[:page]), class: "btn btn-secondary mt-3" %>
+        <!-- 店舗情報（店名・キャッチ・予算） -->
+        <div class="col-md-6 text-start d-flex flex-column">
+          <div>
+            <h1 class="h2"><%= @shop["name"] %></h1>
+            <p class="mb-2 fs-4"><%= @shop["catch"] %></p>
+            <p class="fs-4"><strong>予算:</strong> <%= @shop["budget"]["name"] %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2行目: 地図 + 住所・アクセス -->
+      <div class="row">
+        <!-- Google Map -->
+        <div class="col-md-6 mb-3 mb-md-0 map-container">
+          <iframe
+            width="100%"
+            height="250"
+            frameborder="0"
+            style="border:0"
+            src="https://www.google.com/maps?q=<%= @shop['lat'] %>,<%= @shop['lng'] %>&output=embed"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <!-- 住所・アクセス -->
+        <div class="col-md-6 text-start d-flex flex-column">
+          <p class="fs-5"><strong>住所:</strong> <%= @shop["address"] %></p>
+          <p class="fs-5"><strong>アクセス:</strong> <%= @shop["access"] %></p>
+          <p class="fs-5"><strong>営業時間:</strong> <%= @shop["open"] %></p>
+        </div>
+      </div>
     </div>
   </div>
-</div>

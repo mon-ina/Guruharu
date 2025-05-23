@@ -35,6 +35,9 @@ class RestaurantsController < ApplicationController
     [@budget_group]
   end
 
+  # 配列をカンマ区切りに変換
+  budget_param = budget_codes&.join(",")
+
   if @latitude.present? && @longitude.present?
     query = {
       key: ENV['HOTPEPPER_API_KEY'],
@@ -44,6 +47,7 @@ class RestaurantsController < ApplicationController
       keyword: @keyword,
       genre: @genre,
       open: @open == "1" ? "now" : nil,
+      budget: budget_param,
       format: 'json',
       count: per_page,
       start: start
@@ -56,17 +60,11 @@ class RestaurantsController < ApplicationController
     shops = results["shop"]
     @total_results_available = results["results_available"].to_i
     @total_pages = (@total_results_available / per_page.to_f).ceil
-    @approx_total = @total_pages * per_page
-    # 予算コードでフィルター
-    @shops = if budget_codes
-      shops.select { |shop| shop["budget"] && budget_codes.include?(shop["budget"]["code"]) }
+    @shops = shops || []
     else
-      shops
+      @shops = []
+      @total_pages = 0
     end
-  else
-    @shops = []
-    @total_pages = 0
-  end
 end
 
 
