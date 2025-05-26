@@ -65,7 +65,7 @@ class RestaurantsController < ApplicationController
       @shops = []
       @total_pages = 0
     end
->>>>>>> show-style
+
 end
 
 
@@ -90,7 +90,4 @@ end
 
 end
 
-<<<<<<< HEAD
->>>>>>> search-style
-=======
->>>>>>> show-style
+
