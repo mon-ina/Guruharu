@@ -27,7 +27,6 @@ https://github.com/mon-ina/Guruharu.git
 - OS: Windows 11
 - エディタ: Visual Studio Code
 - バージョン管理: Git / GitHub
-- DB: SQLite3（開発環境）
 - API連携: HotPepper Webサービス（グルメサーチAPI）
 
 ### 開発言語
